@@ -1,0 +1,22 @@
+2026-07-19 11:34:19,392 | INFO | API iniciada | model_version=1.0.0 | model_loaded=true | columns_loaded=true | categories_loaded=true
+2026-07-19 13:23:51,304 | INFO | API iniciada | model_version=1.0.0 | model_loaded=true | columns_loaded=true | categories_loaded=true
+2026-07-19 13:24:51,970 | INFO | API iniciada | model_version=1.0.0 | model_loaded=true | columns_loaded=true | categories_loaded=true
+2026-07-19 13:25:34,131 | INFO | API iniciada | model_version=1.0.0 | model_loaded=true | columns_loaded=true | categories_loaded=true
+2026-07-19 13:27:22,338 | INFO | Predicción exitosa: {'riesgo_predicho': 'high'}
+2026-07-19 13:27:22,338 | INFO | Tiempo de respuesta /predict_risk: 0.009 segundos
+2026-07-19 13:27:48,188 | INFO | Predicción exitosa: {'recuperacion_esperada': 31075.472461863534}
+2026-07-19 13:27:48,188 | INFO | Tiempo de respuesta /predict_recovery: 0.003 segundos
+2026-07-19 13:31:05,282 | INFO | Predicción exitosa: {'riesgo_predicho': 'medium'}
+2026-07-19 13:31:05,282 | INFO | Tiempo de respuesta /predict_risk: 0.001 segundos
+2026-07-19 13:31:31,413 | INFO | Predicción exitosa: {'recuperacion_esperada': 4719.804262271873}
+2026-07-19 13:31:31,413 | INFO | Tiempo de respuesta /predict_recovery: 0.001 segundos
+2026-07-19 13:31:41,260 | INFO | Predicción exitosa: {'recuperacion_esperada': 4719.804262271873}
+2026-07-19 13:31:41,260 | INFO | Tiempo de respuesta /predict_recovery: 0.001 segundos
+2026-07-19 13:31:47,184 | INFO | Predicción exitosa: {'recuperacion_esperada': 26118.320558373223}
+2026-07-19 13:31:47,184 | INFO | Tiempo de respuesta /predict_recovery: 0.001 segundos
+2026-07-19 13:32:07,218 | INFO | Predicción exitosa: {'riesgo_predicho': 'high'}
+2026-07-19 13:32:07,218 | INFO | Tiempo de respuesta /predict_risk: 0.001 segundos
+2026-07-19 13:32:21,367 | INFO | Predicción exitosa: {'riesgo_predicho': 'low'}
+2026-07-19 13:32:21,367 | INFO | Tiempo de respuesta /predict_risk: 0.002 segundos
+2026-07-19 13:32:36,481 | INFO | Predicción exitosa: {'recuperacion_esperada': 26893.946715732054}
+2026-07-19 13:32:36,481 | INFO | Tiempo de respuesta /predict_recovery: 0.005 segundos
