@@ -8,7 +8,7 @@
 
 ### A. Definición de Indicadores (Métricas, Logs, Trazas)
 
-Para garantizar la estabilidad y audibilidad del sistema bajo la norma ISO 42001, se implementa una estrategia de monitoreo multinivel:
+Para garantizar la estabilidad y audibilidad del sistema, se implementa una estrategia de monitoreo multinivel:
 
 -   **Métricas del Modelo:** Evaluadas y registradas mediante MLflow en cada ciclo.
     
