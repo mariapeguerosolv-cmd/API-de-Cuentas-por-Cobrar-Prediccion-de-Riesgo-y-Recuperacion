@@ -13,8 +13,16 @@ Para garantizar la estabilidad y audibilidad del sistema, se implementa una estr
 -   **Métricas del Modelo:** Evaluadas y registradas mediante MLflow en cada ciclo.
     
     -   _Clasificación (Logistic Regression):_ **F1-Score Base de 0.6893**, Accuracy de 0.70, Precision de 0.69 y Recall de 0.70.
-        
+   <img width="500" height="400" alt="confusion_matrix" src="https://github.com/user-attachments/assets/54020275-d0eb-4a71-8113-1828e6fc0cd3" />
+
+  Gráfica 1: Matriz de confusión para auditoría visual de falsos positivos y negativos en riesgo de impago.
+  
     -   _Regresión (Linear Regression):_ **$R^2$ de 0.5715** y un RMSE de 5,784.31.
+<img width="600" height="400" alt="regresion_errores" src="https://github.com/user-attachments/assets/a90c7c83-0c19-45eb-981b-ce172e0acf3b" />
+
+<img width="600" height="600" alt="regresion_dispersion" src="https://github.com/user-attachments/assets/91214606-cdba-4f07-bcfc-c4c5150995e9" />
+
+Gráfica 2: Gráficas de dispersión y análisis de residuos para la calibración del monto de recuperación esperado.
         
 -   **Métricas Operativas (Golden Signals):**
     
@@ -23,7 +31,9 @@ Para garantizar la estabilidad y audibilidad del sistema, se implementa una estr
     -   _Throughput:_ Cantidad de solicitudes procesadas de forma concurrente por Uvicorn.
         
 -   **Logs Estructurados:** Almacenados localmente en `logs\predictions.log` con formato estandarizado mediante marcas de tiempo y niveles de severidad (`INFO`, `WARNING`, `ERROR`). Registran inicialización de artefactos (`model_loaded=true`) y el cuerpo de las predicciones.
-    
+<img width="1015" height="72" alt="image" src="https://github.com/user-attachments/assets/d34b8306-74d2-413d-8089-c8e7a9261bc3" />
+
+
 -   **Trazas:** Monitoreo del ciclo completo del flujo de la petición: `HTTP POST` $\rightarrow$ `FastAPI Endpoint` $\rightarrow$ `Inferencia en Array bidimensional (X)` $\rightarrow$ `JSON Response` junto con el tiempo exacto de ejecución en milisegundos.
 
 <img width="1223" height="802" alt="image" src="https://github.com/user-attachments/assets/20ceb408-1c46-4029-8c32-3a81abab4fa9" />
@@ -47,14 +57,14 @@ El monitoreo visual y operativo se centraliza mediante dos tableros estratégico
 
 1.  **Dashboard de Experimentos y Evaluación (MLflow UI):** Utilizado por el equipo de Ciencia de Datos para auditar el rendimiento y registrar los artefactos (`classification_model.pkl` y `regression_model.pkl`). Muestra gráficos en tiempo real de curvas de aprendizaje, matrices de confusión e importancia de variables.
     
-2.  **Dashboard Operativo (Métricas de Servicio):** Diseñado sobre el estándar de _Golden Signals_ para el equipo de MLOps/DevOps. Monitorea la salud de la API en el puerto activo (`8000`), registrando los códigos de estado HTTP (200 OK, 404 Not Found) e identificando sobrecargas en el hilo de procesamiento.
+2.  **Dashboard Operativo (Métricas de Servicio):** Monitorea la salud de la API en el puerto activo (`8000`), registrando los códigos de estado HTTP (200 OK, 404 Not Found) e identificando sobrecargas en el hilo de procesamiento.
 
 <img width="1506" height="257" alt="image" src="https://github.com/user-attachments/assets/d572a6a0-d539-47ae-a5da-abd391eefcac" />
 
 
 Imagen 2: Tabla de MLflow que resume la corrida genai_evaluation_run
 
-# D. Runbooks de Respuesta a Incidentes
+### D. Runbooks de Respuesta a Incidentes
 
 | **Incidente**                              | **Pasos de Respuesta**                                                                                                                                       | **Responsable**        | **Resultado Esperado**                                      |
 |--------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|-------------------------------------------------------------|
@@ -86,28 +96,52 @@ Para evitar la obsolescencia del modelo en producción, se diseña un esquema de
 
 ## 2. Evidencia de Implementación
 
+Uso de Herramientas de MLOps (MLflow)
+
+En este proyecto, MLflow se utiliza como la plataforma central de gobernanza, auditoría y observabilidad del modelo en producción. Su aplicación práctica se basa en tres funciones clave: 
+
+1) Tracking Automatizado: Registra en cada ejecución los hiperparámetros y métricas de rendimiento (como el R² de 0.5715 y F1-Score de 0.6893), garantizando el linaje y la trazabilidad de los datos. 
+2) Monitoreo Visual: Centraliza los resultados en un dashboard interactivo que permite al equipo detectar en tiempo real anomalías, degradación del servicio o incidentes de sobreajuste. 
+3) Registro y Despliegue (Model Registry): Controla el versionado de los archivos binarios, facilitando la automatización de respuestas operativas como rollbacks automáticos hacia versiones estables ante alertas de Data Drift o caídas en el SLO del negocio.
+
 ### A. Registro y Carga de Artefactos (MLflow Logs)
 
 Los modelos fueron entrenados, evaluados y serializados de manera correcta bajo la ruta del proyecto actual:
 
 === Regresión Lineal ===
 MSE: 33458257.80 | RMSE: 5784.31 | R²: 0.5715
+
 Cross-Validation R² promedio: 0.5922
+
 Modelos guardados correctamente.
+
 MLflow registró el entrenamiento exitosamente.
+
+<img width="1512" height="192" alt="image" src="https://github.com/user-attachments/assets/56f79c14-3349-4af6-81f8-ea3ee3fd66c5" />
+
+<img width="1546" height="778" alt="image" src="https://github.com/user-attachments/assets/cd0c7f04-2c8e-4117-9f31-0f5552577250" />
+
 
 ### B. Logs Operativos de la API (FastAPI Telemetry)
 
 Captura real del archivo de auditoría interna `logs\predictions.log`, cumpliendo estrictamente con la estructura limpia solicitada para producción:
 
 2026-07-19 13:25:34,131 | INFO | API iniciada | model_version=1.0.0 | model_loaded=true | columns_loaded=true | categories_loaded=true
+
 2026-07-19 13:27:22,338 | INFO | Predicción exitosa: {'riesgo_predicho': 'high'}
+
 2026-07-19 13:27:22,338 | INFO | Tiempo de respuesta /predict_risk: 0.009 segundos
+
 2026-07-19 13:27:48,188 | INFO | Predicción exitosa: {'recuperacion_esperada': 31075.472461863534}
+
 2026-07-19 13:27:48,188 | INFO | Tiempo de respuesta /predict_recovery: 0.003 segundos
+
 2026-07-19 13:32:21,367 | INFO | Predicción exitosa: {'riesgo_predicho': 'low'}
+
 2026-07-19 13:32:21,367 | INFO | Tiempo de respuesta /predict_risk: 0.002 segundos
+
 2026-07-19 13:32:36,481 | INFO | Predicción exitosa: {'recuperacion_esperada': 26893.946715732054}
+
 2026-07-19 13:32:36,481 | INFO | Tiempo de respuesta /predict_recovery: 0.005 segundos
 
 ## 3. Simulación de Incidentes
@@ -135,6 +169,16 @@ Captura real del archivo de auditoría interna `logs\predictions.log`, cumpliend
 
 Imagen 3: Graficas de barras mostrando incidente de Sobreajuste (Overfitting)
 
-## 4. Preguntas de Utilidad y Ciclo de Vida del Modelo
+## Conclusiones:
 
--   **¿Cómo sabemos si el modelo sigue siendo de utilidad para el negocio?** El modelo es útil mientras genere un retorno de inversión positivo al mitigar la cartera vencida. Si el costo de reentrenamiento constante iguala o supera los beneficios económicos de las cuentas recuperadas, el ciclo de vida de este software ha concluido y se debe diseñar una nueva arquitectura desde cero, tal como lo especifica la norma de gobernanza ISO 42001.
+El monitoreo activo permite detectar anomalías en tiempo real para proteger el presupuesto de error (error budget) y garantizar el cumplimiento de los SLOs y SLA del negocio. Asimismo, el uso de runbooks demostró ser indispensable para estandarizar los protocolos de respuesta y mitigar incidentes de forma rápida y eficiente.
+
+Por otra parte, aunque los dashboards de MLflow mantuvieron una estructura estándar, cumplieron plenamente con los requisitos de observabilidad, sirviendo como una herramienta visual clave para auditar métricas y detectar comportamientos atípicos en producción.
+
+Finalmente, el modelo predictivo es funcional pero puede ser mejorado en sus métricas de desempeño mediante un ajuste en:
+
+- Optimización de algoritmos: Migrar el modelo actual (que registra un $R^2$ de 0.5715 y RMSE de 5,784.31) hacia algoritmos no lineales como Random Forest o XGBoost, e integrar Feature Engineering para capturar mejor el comportamiento del cliente.
+  
+- Control de sobreajuste (Overfitting): Implementar técnicas de regularización (Lasso/Ridge) y validación cruzada estricta para solucionar las métricas saturadas en 1.00 detectadas en la simulación, asegurando que el modelo generalice correctamente con datos reales en la API.
+
+
