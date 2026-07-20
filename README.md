@@ -25,7 +25,10 @@ Para garantizar la estabilidad y audibilidad del sistema bajo la norma ISO 42001
 -   **Logs Estructurados:** Almacenados localmente en `logs\predictions.log` con formato estandarizado mediante marcas de tiempo y niveles de severidad (`INFO`, `WARNING`, `ERROR`). Registran inicialización de artefactos (`model_loaded=true`) y el cuerpo de las predicciones.
     
 -   **Trazas:** Monitoreo del ciclo completo del flujo de la petición: `HTTP POST` $\rightarrow$ `FastAPI Endpoint` $\rightarrow$ `Inferencia en Array bidimensional (X)` $\rightarrow$ `JSON Response` junto con el tiempo exacto de ejecución en milisegundos.
-    
+
+<img width="1223" height="802" alt="image" src="https://github.com/user-attachments/assets/20ceb408-1c46-4029-8c32-3a81abab4fa9" />
+
+Imagen 1: interfaz de API de FastAPI.
 
 ### B. Diseño de Alertas Inteligentes
 
@@ -45,6 +48,11 @@ El monitoreo visual y operativo se centraliza mediante dos tableros estratégico
 1.  **Dashboard de Experimentos y Evaluación (MLflow UI):** Utilizado por el equipo de Ciencia de Datos para auditar el rendimiento y registrar los artefactos (`classification_model.pkl` y `regression_model.pkl`). Muestra gráficos en tiempo real de curvas de aprendizaje, matrices de confusión e importancia de variables.
     
 2.  **Dashboard Operativo (Métricas de Servicio):** Diseñado sobre el estándar de _Golden Signals_ para el equipo de MLOps/DevOps. Monitorea la salud de la API en el puerto activo (`8000`), registrando los códigos de estado HTTP (200 OK, 404 Not Found) e identificando sobrecargas en el hilo de procesamiento.
+
+<img width="1506" height="257" alt="image" src="https://github.com/user-attachments/assets/d572a6a0-d539-47ae-a5da-abd391eefcac" />
+
+
+Imagen 2: Tabla de MLflow que resume la corrida genai_evaluation_run
 
 # D. Runbooks de Respuesta a Incidentes
 
@@ -121,6 +129,11 @@ Captura real del archivo de auditoría interna `logs\predictions.log`, cumpliend
     
 -   **Resultado:** Se documenta la necesidad de ampliar el conjunto de test con datos reales desbalanceados para estabilizar las curvas de métricas en producción por debajo del 100% teórico.
     
+<img width="1531" height="771" alt="image" src="https://github.com/user-attachments/assets/07ab223b-8ab5-4306-b3fe-695d0894a0d5" />
+
+<img width="1532" height="272" alt="image" src="https://github.com/user-attachments/assets/d73a7445-ff79-4e32-adc7-02a695d27b02" />
+
+Imagen 3: Graficas de barras mostrando incidente de Sobreajuste (Overfitting)
 
 ## 4. Preguntas de Utilidad y Ciclo de Vida del Modelo
 
